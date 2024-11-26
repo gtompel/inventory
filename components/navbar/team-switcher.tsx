@@ -3,8 +3,33 @@ import { Popover, PopoverContent, PopoverTrigger  } from '../ui/popover'
 import { Button } from '../ui/button'
 import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar'
 import { CaretSortIcon } from "@radix-ui/react-icons"
-import { Command, CommandInput } from '../ui/command'
+import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList, CommandSeparator } from '../ui/command'
+import { PlusCircleIcon } from 'lucide-react'
 
+const groups = [
+  {
+    label: "Персональный Аккаунт",
+    teams: [
+      {
+        label: "Laptev Dmitriy"
+      },
+    ]
+  },
+  {
+    label: "Команда",
+    teams: [
+      {
+        label: "Laptev Dmitriy1"
+      },
+      {
+        label: "Laptev Dmitriy2"
+      },
+      {
+        label: "Laptev Dmitriy3"
+      },
+    ]
+  },
+]
 export default function TeamSwitcher() {
   return (
     <Popover>
@@ -31,7 +56,40 @@ export default function TeamSwitcher() {
         </PopoverTrigger>
         <PopoverContent className="w-80">
           <Command>
-            <CommandInput placeholder="Search team..." />
+            <CommandInput placeholder="Поиск..." />
+            <CommandList>
+              <CommandEmpty>
+                Ничего не найдено
+              </CommandEmpty>
+                {groups.map((group) => (
+                  <CommandGroup key={group.label} heading={group.label}>
+                    {group.teams.map((team) => (
+                      <CommandItem key={team.label} className='text-sm'>
+                        <Avatar className='mr-2 h-6 w-6'
+                        >
+                            <AvatarImage
+                            src='222.png'
+                            alt={team.label}
+                             />
+                             <AvatarFallback className='uppercase'>
+                                {team.label}
+                             </AvatarFallback>
+                        </Avatar>
+                        <span>{team.label}</span>
+                      </CommandItem>
+                    ))}
+                  </CommandGroup>
+                ))}
+            </CommandList>
+            <CommandSeparator />
+            <CommandList>
+              <CommandGroup>
+                <CommandItem>
+                  <PlusCircleIcon className='mr-2 h-5 w-5' />
+                  <span>Добавить команду</span>
+                </CommandItem>
+              </CommandGroup>
+            </CommandList>
           </Command>
         </PopoverContent>
     </Popover>
