@@ -1,8 +1,9 @@
 import React from 'react'
-import { Popover, PopoverTrigger  } from '../ui/popover'
+import { Popover, PopoverContent, PopoverTrigger  } from '../ui/popover'
 import { Button } from '../ui/button'
 import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar'
-import { CaretSortIcon } from "@radix-ui/react-avatar"
+import { CaretSortIcon } from "@radix-ui/react-icons"
+import { Command, CommandInput } from '../ui/command'
 
 export default function TeamSwitcher() {
   return (
@@ -28,6 +29,11 @@ export default function TeamSwitcher() {
                 <CaretSortIcon />
             </Button>
         </PopoverTrigger>
+        <PopoverContent className="w-80">
+          <Command>
+            <CommandInput placeholder="Search team..." />
+          </Command>
+        </PopoverContent>
     </Popover>
   )
 }
