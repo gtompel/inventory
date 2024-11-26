@@ -7,7 +7,7 @@ export default function Avatar() {
     <AvatarComp className='mr-2 h-8 w-8'
     >
         <AvatarImage
-        src='222.png'
+        src='Evandro.png'
         alt="Laptev Dmitriy"
          />
          <AvatarFallback >

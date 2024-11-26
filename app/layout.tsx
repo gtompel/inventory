@@ -23,7 +23,10 @@ export default function RootLayout({
       <body className={nunito.className}>
         <main className="min-h-screen">
           {/* <Header/> */}
+          <div>
           {children}
+          </div>
+
           </main>
         </body>
     </html>
