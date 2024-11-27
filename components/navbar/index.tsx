@@ -2,7 +2,7 @@ import React from 'react'
 import TeamSwitcher  from './team-switcher'
 import Links from './links'
 import Search from './search'
-import Avatar from './Avatar'
+import Avatar from './avatar'
 
 
 function index() {
