@@ -3,17 +3,24 @@ import React from 'react'
 import { Form as FormComp, FormField, FormControl, FormItem, FormMessage } from '../ui/form'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
-import formSchema from './schema'
+import formSchema, { FormSchema } from './schema'
 import { Input } from '../ui/input'
 import { SelectTrigger, SelectValue, Select, SelectContent, SelectItem } from '../ui/select'
+import StatusBullet from '../StatusBullet'
+import { Textarea } from '../ui/textarea'
+import { Button } from '../ui/button'
+import {IoAddOutline} from 'react-icons/io5'
 
 export default function Form() {
     const form = useForm({
         resolver: zodResolver(formSchema)
     })
+    const onSubmit = async (data:FormSchema) => {
+
+    }
     return (
         <FormComp {...form}>
-            <form className="space-y-2">
+            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-2">
                 <div className="flex items-center gap-3">
                     <FormField
                         control={form.control}
@@ -33,7 +40,7 @@ export default function Form() {
                         render={({ field }) => (
                             <FormItem className="grow">
                                 <FormMessage />
-                                <Select>
+                                <Select onValueChange={field.onChange} defaultValue={field.value}>
                                     <FormControl>
                                         <SelectTrigger>
                                             <SelectValue placeholder="Статус"/>
@@ -41,13 +48,13 @@ export default function Form() {
                                     </FormControl>
                                         <SelectContent >
                                             <SelectItem value="Ожидание">
-                                                <span>Ожидание</span>
+                                                <StatusBullet status="Ожидание"/>
                                             </SelectItem>
                                             <SelectItem value="В работе">
-                                                <span>В работе</span>
+                                                <StatusBullet status="В работе"/>
                                             </SelectItem>
                                             <SelectItem value="Выполнено">
-                                                <span>Выполнено</span>
+                                                <StatusBullet status="Выполнено"/>
                                             </SelectItem>
                                             </SelectContent>
 
@@ -55,7 +62,26 @@ export default function Form() {
                             </FormItem>
                         )}
                     />
+                    <Button
+                    type="submit"
+                    icon={<IoAddOutline />}
+                    >
+                        Создать
+                    </Button>
                 </div>
+                <FormField
+                        control={form.control}
+                        name="description"
+                        render={({ field }) => (
+                            <FormItem>
+                                <FormMessage />
+                                <FormControl>
+                                    <Textarea placeholder="Описание" {...field} />
+
+                                </FormControl>
+                            </FormItem>
+                        )}
+                    />
 
             </form>
 

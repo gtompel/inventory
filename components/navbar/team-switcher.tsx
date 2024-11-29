@@ -1,6 +1,5 @@
 import React from 'react'
 import { Popover, PopoverContent, PopoverTrigger  } from '../ui/popover'
-import { Button } from '../ui/button'
 import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar'
 import { CaretSortIcon } from "@radix-ui/react-icons"
 import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList, CommandSeparator } from '../ui/command'
@@ -34,11 +33,10 @@ export default function TeamSwitcher() {
   return (
     <Popover>
         <PopoverTrigger>
-            <Button
-            variant="outline"
-            role='combobox'
+            <div
+
             aria-label='Select a team'
-            className='w-[200px] justify-between'
+            className='px-3 py-2 transition-all flex hover:bg-secondary rounded-2xl items-center gap-1.5 w-[200px] justify-between border'
             >
                 <Avatar className='mr-2 h-6 w-6'
                 >
@@ -52,7 +50,7 @@ export default function TeamSwitcher() {
                 </Avatar>
                 Laptev Dmitriy
                 <CaretSortIcon />
-            </Button>
+            </div>
         </PopoverTrigger>
         <PopoverContent className="w-80">
           <Command>
