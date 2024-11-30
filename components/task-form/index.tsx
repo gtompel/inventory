@@ -1,5 +1,6 @@
 "use client"
 import React from 'react'
+import { VscLoading } from 'react-icons/vsc'
 import { Form as FormComp, FormField, FormControl, FormItem, FormMessage } from '../ui/form'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -10,12 +11,24 @@ import StatusBullet from '../StatusBullet'
 import { Textarea } from '../ui/textarea'
 import { Button } from '../ui/button'
 import {IoAddOutline} from 'react-icons/io5'
+import { createTask } from '@/service/task'
+import { useToast } from '@/hooks/use-toast'
+
 
 export default function Form() {
     const form = useForm({
         resolver: zodResolver(formSchema)
-    })
+    });
+    const {toast}=useToast()
+    const [isLoading, setIsLoading] = React.useState(false);
     const onSubmit = async (data:FormSchema) => {
+        setIsLoading(true)
+        await createTask(data)
+        setIsLoading(false)
+        toast({
+            title:"Задача создана",
+            description:"Вы можете найти ее в списке задач"
+        })
 
     }
     return (
@@ -64,7 +77,7 @@ export default function Form() {
                     />
                     <Button
                     type="submit"
-                    icon={<IoAddOutline />}
+                    icon={isLoading ? <VscLoading className='animate-spin'/> : <IoAddOutline />}
                     >
                         Создать
                     </Button>
