@@ -27,7 +27,7 @@ export default function Modal(props: Props) {
     if(!isOpen) return null;
 
   return (
-    <div onClick={onScreenClick} className='fixed z-[10] inset-0 bg-zinc-900/90 items-center justify-center'>
+    <div onClick={onScreenClick} className='fixed z-[10] inset-0 bg-zinc-900/90 flex items-center justify-center'>
         <div ref={modalRef} className='bg-background text-white rounded max-h-[90vh] overflow-y-auto md:max-w-[70vw] max-w-[90vw]'>
             <div className='flex flex-col gap-4'>
                 <div className='py-4 px-4 border-b border-b-white/10'>

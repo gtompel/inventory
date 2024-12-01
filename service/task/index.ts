@@ -2,17 +2,22 @@
 
 import { FormSchema } from "@/components/task-form/schema";
 import prisma from "@/lib/prisma";
+import { Task } from "@prisma/client";
 import { revalidatePath } from "next/cache";
 
-export async function createTask(task:FormSchema) {
+function revalidatePageData() {
+    revalidatePath("/", "layout")
+}
+
+export async function createTask(task: FormSchema) {
     await prisma.task.create({
-        data:{
+        data: {
             description: task.description || "",
             title: task.title,
             status: task.status
         }
     })
-    revalidatePath("/","layout")
+    revalidatePageData()
 
 }
 
@@ -23,4 +28,45 @@ export async function getTasks() {
         },
     })
     return tasks
+}
+
+export async function deleteTask(id: string) {
+    await prisma.task.delete({
+        where: {
+            id
+        }
+    })
+    revalidatePageData()
+}
+
+export async function updateTask(task: Task) {
+    await prisma.task.update({
+        where: {
+            id: task.id
+        },
+        data: task
+    })
+    revalidatePageData()
+}
+
+export async function getTaskCount() {
+    const [count1, count2, count3] = await Promise.all([
+        prisma.task.count({
+            where: {
+                status: "Ожидание"
+            }
+        }),
+        prisma.task.count({
+            where: {
+                status: "В работе"
+            }
+        }),
+        prisma.task.count({
+            where: {
+                status: "Выполнено"
+            }
+        })
+
+        ])
+    return { count1, count2, count3 }
 }
