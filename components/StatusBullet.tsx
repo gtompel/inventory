@@ -6,7 +6,7 @@ type Props = {
 }
 
 export default function StatusBullet(props: Props) {
-  const{status} = props
+  const{status} = props;
   if(status === "Ожидание"){
     return (
         <div className="flex items-center gap-2">

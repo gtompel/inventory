@@ -2,7 +2,7 @@
 import React from 'react'
 import { VscLoading } from 'react-icons/vsc'
 import { Form as FormComp, FormField, FormControl, FormItem, FormMessage } from '../ui/form'
-import { useForm } from 'react-hook-form'
+import { useForm,SubmitHandler } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import formSchema, { FormSchema } from './schema'
 import { Input } from '../ui/input'
@@ -16,12 +16,12 @@ import { useToast } from '@/hooks/use-toast'
 
 
 export default function Form() {
-    const form = useForm({
+    const form = useForm<FormSchema>({
         resolver: zodResolver(formSchema)
     });
     const {toast}=useToast()
     const [isLoading, setIsLoading] = React.useState(false);
-    const onSubmit = async (data:FormSchema) => {
+    const onSubmit: SubmitHandler<FormSchema> = async (data) => {
         setIsLoading(true)
         await createTask(data)
         setIsLoading(false)
