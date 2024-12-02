@@ -58,6 +58,7 @@ export default function Form(props: Props) {
             await updateTask(newTask)
         }
         setIsLoading(false)
+        form.reset();
         toast({
             title: isEditing ? "Задача обновлена" : "Задача создана",
             description: "Вы можете найти ее в списке задач"
@@ -80,7 +81,7 @@ export default function Form(props: Props) {
                             <FormItem className="grow">
                                 <FormMessage />
                                 <FormControl>
-                                    <Input placeholder="Заголовок" {...field} />
+                                    <Input placeholder="Наименование" {...field} />
                                 </FormControl>
                             </FormItem>
                         )}
