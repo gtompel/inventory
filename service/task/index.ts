@@ -6,7 +6,12 @@ import { Task } from "@prisma/client";
 import { revalidatePath } from "next/cache";
 
 function revalidatePageData() {
-    revalidatePath("/", "layout")
+    return new Promise<void>(resolve => {
+        setTimeout(() => {
+            revalidatePath("/", "layout");
+            resolve();
+        }, 30000); // 30 seconds timeout
+    });
 }
 
 export async function createTask(task: FormSchema) {
