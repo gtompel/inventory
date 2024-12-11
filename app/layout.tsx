@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Nunito } from "next/font/google";
 import "./globals.css";
 import ProvidersWrapper from "./ProvidersWrapper";
+import Navbar from "@/components/navbar";
 
 
 const nunito = Nunito({
@@ -22,8 +23,12 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={nunito.className}>
+
         <ProvidersWrapper>
-          {children}
+        <Navbar />
+        <div className="h-screen flex flex-col justify-between">
+        {children}
+        </div>
         </ProvidersWrapper>
 
         </body>

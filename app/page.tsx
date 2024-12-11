@@ -1,5 +1,5 @@
 import Charts from "@/components/charts";
-import Navbar from "@/components/navbar";
+
 import Form from "@/components/task-form";
 import List from "@/components/task-list";
 import { CardDescription, CardTitle } from "@/components/ui/card";
@@ -8,9 +8,9 @@ import { ResizablePanelGroup, ResizablePanel, ResizableHandle } from "@/componen
 
 export default async function Home() {
   return (
-    <div className="h-screen flex flex-col justify-between">
-      <Navbar />
-      <ResizablePanelGroup className="h-full w-full border" direction="horizontal">
+
+
+      <ResizablePanelGroup className="h-full w-full border border-t-0" direction="horizontal">
         <ResizablePanel defaultSize={60}>
           <ResizablePanelGroup direction="vertical">
             <ResizablePanel defaultSize={40}>
@@ -35,7 +35,6 @@ export default async function Home() {
           </div>
         </ResizablePanel>
       </ResizablePanelGroup>
-    </div>
 
   );
 }
