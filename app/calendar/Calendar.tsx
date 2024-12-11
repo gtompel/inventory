@@ -6,6 +6,8 @@ import { eachDayOfInterval, endOfMonth, startOfMonth } from 'date-fns'
 type CalendarProps = {
     tasks: Task[]
 }
+
+const weekDays = ['Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб', 'Вс']
 export default function Calendar({tasks}: CalendarProps) {
     const currentDate = new Date()
 
