@@ -1,20 +1,21 @@
 "use server"
 
-import { FormSchema } from "@/components/task-form/schema";
+
 import prisma from "@/lib/prisma";
-import { Task } from "@prisma/client";
+import { Prisma, Task } from "@prisma/client";
 import { revalidatePath } from "next/cache";
 
 function revalidatePageData() {
     revalidatePath("/", "layout")
 }
 
-export async function createTask(task: FormSchema) {
+export async function createTask(task: Prisma.TaskCreateArgs["data"]) {
     await prisma.task.create({
         data: {
             description: task.description || "",
             title: task.title,
-            status: task.status
+            status: task.status,
+            ownerId: task.ownerId as string
         }
     })
     revalidatePageData()

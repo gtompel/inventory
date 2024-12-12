@@ -14,6 +14,8 @@ import { IoAddOutline } from 'react-icons/io5'
 import { createTask, deleteTask, updateTask } from '@/service/task'
 import { useToast } from '@/hooks/use-toast'
 import { Task } from '@prisma/client'
+import { authClient } from '@/lib/auth-client'
+
 
 type Props = {
     task?: Task
@@ -24,7 +26,8 @@ type Props = {
 
 export default function Form(props: Props) {
     const { task, onSubmitOrDelete } = props
-    const isEditing = !!task
+    const isEditing = !!task;
+    const { data: session, isPending } = authClient.useSession()
 
     const form = useForm<FormSchema>({
         resolver: zodResolver(formSchema),
@@ -44,17 +47,18 @@ export default function Form(props: Props) {
     const { toast } = useToast()
     const [isLoading, setIsLoading] = React.useState(false);
     const onSubmit: SubmitHandler<FormSchema> = async (data) => {
-        setIsLoading(true)
-        if (!isEditing) {
-            await createTask(data)
-        } else {
+        setIsLoading(true);
+        const ownerId = session?.user?.id
+        if (!isEditing && ownerId !== undefined) {
+            await createTask({ ...data, ownerId})
+        } else if (isEditing) {
             const newTask = {
                 id: task.id,
                 createdAt: task.createdAt,
                 description: data.description || "",
                 title: data.title,
                 status: data.status
-             } as Task
+            } as Task
             await updateTask(newTask)
         }
         setIsLoading(false)
@@ -118,6 +122,7 @@ export default function Form(props: Props) {
                         <Button
                             type="submit"
                             icon={isLoading ? <VscLoading className='animate-spin' /> : <IoAddOutline />}
+                            disabled={isPending || isLoading}
                         >
                             Создать
                         </Button>
@@ -138,10 +143,11 @@ export default function Form(props: Props) {
                 />
                 {isEditing ? (
                     <div className='flex items-center gap-2'>
-                        <Button type='submit' disabled={isLoading} className='w-full'>Сохранить</Button>
-                        <Button variant="destructive" onClick={onDelete} className='w-full' disabled={isLoading}>Удалить</Button>
+                        <Button type='submit' className='w-full'
+                            disabled={isPending || isLoading}>Сохранить</Button>
+                        <Button variant="destructive" onClick={onDelete} className='w-full' disabled={isPending || isLoading}>Удалить</Button>
                     </div>
-                ): null}
+                ) : null}
             </form>
         </FormComp>
     )

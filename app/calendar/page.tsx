@@ -6,7 +6,7 @@ export default async function Page() {
   const tasks = await getTasks()
   return (
     <div>
-      <Calendar />
+      <Calendar tasks={tasks}/>
     </div>
   )
 }
