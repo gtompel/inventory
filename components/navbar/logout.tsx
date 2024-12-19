@@ -1,5 +1,5 @@
-"use client"
-import React from 'react'
+"use client";
+import React from "react";
 import {
   Dialog,
   DialogFooter,
@@ -7,46 +7,49 @@ import {
   DialogTrigger,
   DialogClose,
   DialogContent,
-  DialogTitle
-} from '../ui/dialog'
-import { MdOutlineLogout } from 'react-icons/md'
-import { Button } from '../ui/button'
-import { authClient } from '@/lib/auth-client'
-import { useRouter } from 'next/navigation'
+  DialogTitle,
+} from "../ui/dialog";
+import { MdOutlineLogout } from "react-icons/md";
+import { Button } from "../ui/button";
+import { authClient } from "@/lib/auth-client";
+import { useRouter } from "next/navigation";
 
 export default function Logout() {
-  const router = useRouter()
+  const router = useRouter();
+
   const signOut = () => {
     authClient.signOut({
       fetchOptions: {
         onSuccess: () => {
-          router.push('/auth')
-        }
+          router.push("/auth");
+        },
+      },
+    });
+  };
 
-      }
-    })
-
-  }
   return (
     <Dialog>
-      <DialogTrigger className='hover:text-red-500'>
+      <DialogTrigger className="hover:text-red-500">
         <MdOutlineLogout />
       </DialogTrigger>
-      <DialogContent>
+      <DialogContent
+        aria-labelledby="dialog-title"
+        aria-describedby="dialog-description"
+      >
         <DialogHeader>
-          <DialogTitle>Выйти из аккаунта?</DialogTitle>
-
+          <DialogTitle id="dialog-title">Выйти из аккаунта?</DialogTitle>
         </DialogHeader>
-        <DialogFooter className='sm:justify-start'>
-          <Button type='button' onClick={signOut}>
+        <DialogFooter className="sm:justify-start">
+          <Button type="button" onClick={signOut}>
             Да, выйти
           </Button>
           <DialogClose asChild>
-            <Button type='button' variant="secondary">Отменить</Button>
+            <Button type="button" variant="secondary">
+              Отменить
+            </Button>
           </DialogClose>
         </DialogFooter>
       </DialogContent>
     </Dialog>
-  )
+  );
 }
-

@@ -20,6 +20,7 @@ import { authClient } from '@/lib/auth-client'
 type Props = {
     task?: Task
     onSubmitOrDelete?: () => void
+    defaultDate?: Date
 
 }
 
@@ -145,9 +146,9 @@ export default function Form(props: Props) {
                     <div className='flex items-center gap-2'>
                         <Button type='submit' className='w-full'
                             disabled={isPending || isLoading}>Сохранить</Button>
-                        <Button variant="destructive" onClick={onDelete} className='w-full' disabled={isPending || isLoading}>Удалить</Button>
+                        <Button variant="destructive" onClick={onDelete} className='w-full' disabled={isPending || isLoading} >Удалить</Button>
                     </div>
-                ) : null}
+                ) : true}
             </form>
         </FormComp>
     )
