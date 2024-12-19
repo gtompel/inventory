@@ -8,14 +8,16 @@ import {
   DialogClose,
   DialogContent,
   DialogTitle,
+  DialogDescription
 } from "../ui/dialog";
 import { MdOutlineLogout } from "react-icons/md";
 import { Button } from "../ui/button";
 import { authClient } from "@/lib/auth-client";
-import { useRouter } from "next/navigation";
+import router from "next/router";
+
 
 export default function Logout() {
-  const router = useRouter();
+
 
   const signOut = () => {
     authClient.signOut({
@@ -28,17 +30,21 @@ export default function Logout() {
   };
 
   return (
-    <Dialog>
+    <Dialog >
       <DialogTrigger className="hover:text-red-500">
         <MdOutlineLogout />
       </DialogTrigger>
+
       <DialogContent
-        aria-labelledby="dialog-title"
-        aria-describedby="dialog-description"
+
+        className="sm:max-w-[425px]"
       >
         <DialogHeader>
-          <DialogTitle id="dialog-title">Выйти из аккаунта?</DialogTitle>
+        <DialogTitle >Выйти из аккаунта?</DialogTitle>
         </DialogHeader>
+        <DialogDescription className="text-sm text-gray-500">
+            Это действие завершит вашу сессию. Вы уверены, что хотите выйти?
+        </DialogDescription>
         <DialogFooter className="sm:justify-start">
           <Button type="button" onClick={signOut}>
             Да, выйти

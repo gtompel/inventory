@@ -30,12 +30,13 @@ export default function Page() {
                 email,
                 password,
             });
+            router.push('/')
 
             if (signInError) {
                 setError(signInError);
             } else {
                 console.log('Вход успешен:', data);
-                router.push('/')
+
             }
         } catch (err) {
             if (err instanceof Error) {
@@ -58,12 +59,13 @@ export default function Page() {
               password,
               name: ''
             });
+            router.push('/')
 
             if (registerError) {
                 setError(registerError);
             } else {
                 console.log('Регистрация успешна:', data);
-                router.push('/')
+
             }
         } catch (err) {
             if (err instanceof Error) {

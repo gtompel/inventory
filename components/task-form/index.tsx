@@ -148,7 +148,7 @@ export default function Form(props: Props) {
                             disabled={isPending || isLoading}>Сохранить</Button>
                         <Button variant="destructive" onClick={onDelete} className='w-full' disabled={isPending || isLoading} >Удалить</Button>
                     </div>
-                ) : true}
+                ) : null}
             </form>
         </FormComp>
     )

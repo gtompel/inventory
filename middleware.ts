@@ -16,7 +16,7 @@ export async function middleware(request: NextRequest) {
     } else if (request.nextUrl.pathname === '/auth' && isAuthenticated) {
         return NextResponse.redirect(new URL('/', request.url))
     }
-}
+} 
 
 
     export const config = {
