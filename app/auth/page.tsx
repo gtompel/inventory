@@ -5,8 +5,7 @@ import { authClient } from '@/lib/auth-client';
 import { FaSignInAlt, FaUserPlus } from "react-icons/fa";
 import React from 'react';
 
-
-import router from 'next/router';
+import { useRouter } from 'next/navigation';
 import { Input } from '@/components/ui/input';
 
 interface SignInError {
@@ -21,57 +20,84 @@ export default function Page() {
     const [password, setPassword] = useState<string>('');
     const [confirmPassword, setConfirmPassword] = useState<string>(''); // Поле для подтверждения пароля
     const [error, setError] = useState<SignInError | null>(null); // Укажем тип состояния ошибки как SignInError или null
+    const [successMessage, setSuccessMessage] = useState<string | null>(null); // Состояние для сообщения об успехе
     const [isRegistering, setIsRegistering] = useState<boolean>(false); // Состояние для определения режима (вход или регистрация)
+    const router = useRouter();
+
+    const displayMessage = (message: string, isError: boolean) => {
+        if (isError) {
+            setError({ message, status: 400, statusText: 'Bad Request' });
+            setSuccessMessage(null);
+        } else {
+            setSuccessMessage(message);
+            setError(null);
+        }
+
+        setTimeout(() => {
+            setError(null);       // Убираем сообщение об ошибке после задержки
+            setSuccessMessage(null); // Убираем сообщение об успехе после задержки
+        }, 3000); // Задержка в 3 секунды
+    };
 
     const signin = async () => {
-        setError(null); // Сбрасываем ошибки перед новым запросом
+        displayMessage('', false); // Сбрасываем сообщения перед новым запросом
         try {
-            const { data, error: signInError } = await authClient.signIn.email({
+            const { error: signInError } = await authClient.signIn.email({
                 email,
                 password,
+                fetchOptions: {
+                    onSuccess: () => {
+                        displayMessage('Вы успешно вошли в систему!', false); // Показываем сообщение об успехе
+                        setTimeout(() => {
+                            if (typeof window !== "undefined") {
+                                localStorage.clear();
+                                router.push('/');
+                            }
+                        }, 2000);
+                    },
+                },
             });
-            router.push('/')
-
             if (signInError) {
-                setError(signInError);
-            } else {
-                console.log('Вход успешен:', data);
-
+                displayMessage('Ошибка входа: ' + signInError.message, true); // Показываем сообщение об ошибке
             }
         } catch (err) {
             if (err instanceof Error) {
-                setError({ message: err.message, status: 500, statusText: 'Internal Error' });
+                displayMessage(err.message, true); // Показываем сообщение об ошибке
             } else {
-                setError({ message: 'Неизвестная ошибка', status: 500, statusText: 'Unknown Error' });
+                displayMessage('Неизвестная ошибка', true); // Показываем сообщение об ошибке
             }
         }
     };
 
     const register = async () => {
-        setError(null); // Сбрасываем ошибки перед новым запросом
+        displayMessage('', false); // Сбрасываем сообщения перед новым запросом
         if (password !== confirmPassword) {
-            setError({ message: 'Пароли не совпадают', status: 400, statusText: 'Bad Request' });
+            displayMessage('Пароли не совпадают', true); // Показываем сообщение об ошибке
             return;
         }
         try {
-            const { data, error: registerError } = await authClient.signUp.email({
-              email,
-              password,
-              name: ''
+            const { error: registerError } = await authClient.signUp.email({
+                email,
+                password,
+                name: '',
+                fetchOptions: {
+                    onSuccess: () => {
+                        displayMessage('Вы успешно зарегистрированы!', false); // Показываем сообщение об успехе
+                        if (typeof window !== "undefined") {
+                            localStorage.clear();
+                            router.push('/');
+                        }
+                    },
+                }
             });
-            router.push('/')
-
             if (registerError) {
-                setError(registerError);
-            } else {
-                console.log('Регистрация успешна:', data);
-
+                displayMessage('Ошибка регистрации: ' + registerError.message, true); // Показываем сообщение об ошибке
             }
         } catch (err) {
             if (err instanceof Error) {
-                setError({ message: err.message, status: 500, statusText: 'Internal Error' });
+                displayMessage(err.message, true); // Показываем сообщение об ошибке
             } else {
-                setError({ message: 'Неизвестная ошибка при регистрации', status: 500, statusText: 'Unknown Error' });
+                displayMessage('Неизвестная ошибка при регистрации', true); // Показываем сообщение об ошибке
             }
         }
     };
@@ -106,6 +132,7 @@ export default function Page() {
                     />
                 )}
                 {error && <p className='text-red-500'>{error.message}</p>}
+                {successMessage && <p className='text-green-500'>{successMessage}</p>} {/* Выводим сообщение об успехе */}
                 <Button className='flex items-center gap-1.5' onClick={isRegistering ? register : signin}>
                     {isRegistering ? <FaUserPlus /> : <FaSignInAlt />}
                     <span>{isRegistering ? 'Зарегистрироваться' : 'Войти'}</span>
