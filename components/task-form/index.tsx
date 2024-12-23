@@ -26,7 +26,7 @@ type Props = {
 
 
 export default function Form(props: Props) {
-    const { task, onSubmitOrDelete } = props
+    const { task, onSubmitOrDelete, defaultDate } = props
     const isEditing = !!task;
     const { data: session, isPending } = authClient.useSession()
 
@@ -51,7 +51,12 @@ export default function Form(props: Props) {
         setIsLoading(true);
         const ownerId = session?.user?.id
         if (!isEditing && ownerId !== undefined) {
-            await createTask({ ...data, ownerId})
+            await createTask({
+                ...data,
+                 ownerId,
+                 description: data?.description || "",
+                 createdAt: defaultDate
+                })
         } else if (isEditing) {
             const newTask = {
                 id: task.id,

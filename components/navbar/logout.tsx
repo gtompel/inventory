@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react"; // Импортируем useState
+import React, { useState } from "react";
 import {
   Dialog,
   DialogFooter,
@@ -14,11 +14,12 @@ import { MdOutlineLogout } from "react-icons/md";
 import { Button } from "../ui/button";
 import { authClient } from "@/lib/auth-client";
 import { useRouter } from "next/navigation"; // Используем useRouter из next/navigation
+import { useToast } from '@/hooks/use-toast'; // Импортируем useToast
 
 export default function Logout() {
+  const { toast } = useToast(); // Получаем toast из useToast
   const router = useRouter(); // Получаем router с помощью useRouter
   const [isOpen, setIsOpen] = useState(false); // Состояние для управления открытием диалога
-  const [message, setMessage] = useState(""); // Состояние для сообщения об ошибке или успехе
 
   const signOut = async () => {
     try {
@@ -26,7 +27,11 @@ export default function Logout() {
         fetchOptions: {
           onSuccess: () => {
             localStorage.clear(); // Очищаем хранилище
-            setMessage("Вы успешно вышли из аккаунта."); // Устанавливаем сообщение об успехе
+            toast({
+              title: "Вы успешно вышли из системы!",
+              description: "Возвращайтесь снова!",
+              duration: 3000
+             }); // Показываем сообщение об успехе
             setTimeout(() => {
               setIsOpen(false); // Закрываем диалог
               router.push("/auth"); // Переходим на страницу аутентификации
@@ -36,20 +41,27 @@ export default function Logout() {
       });
     } catch (error: unknown) { // Явно указываем тип
       if (error instanceof Error) {
-        setMessage("Ошибка выхода: " + error.message); // Устанавливаем сообщение об ошибке
+        toast({
+          title: "Произошла ошибка.",
+          description: error.message,
+          duration: 3000
+         }); // Показываем сообщение об ошибке
       } else {
-        setMessage("Произошла неизвестная ошибка."); // Обработка не-Error объектов
+        toast({
+          title: "Произошла ошибка.",
+          description: "Неизвестная ошибка.",
+          duration: 3000
+        }); // Обработка не-Error объектов
       }
     }
   };
 
   const handleDialogOpen = () => {
     setIsOpen(true);
-    setMessage(""); // Сбрасываем сообщение при открытии диалога
   };
 
   return (
-    <Dialog open={isOpen} onOpenChange={setIsOpen}> {/* Устанавливаем состояние для управления открытием диалога */}
+    <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <DialogTrigger className="hover:text-red-500" onClick={handleDialogOpen}>
         <MdOutlineLogout />
       </DialogTrigger>
@@ -61,11 +73,6 @@ export default function Logout() {
         <DialogDescription className="text-sm text-gray-500">
           Это действие завершит вашу сессию. Вы уверены, что хотите выйти?
         </DialogDescription>
-        {message && (
-          <div className="mt-4 text-sm text-green-500"> {/* Отображаем сообщение */}
-            {message}
-          </div>
-        )}
         <DialogFooter className="sm:justify-start">
           <Button type="button" onClick={signOut}>
             Да, выйти

@@ -1,9 +1,11 @@
 "use server"
 
 
+import { auth } from "@/lib/auth";
 import prisma from "@/lib/prisma";
 import { Prisma, Task } from "@prisma/client";
 import { revalidatePath } from "next/cache";
+import { headers } from "next/headers";
 
 function revalidatePageData() {
     revalidatePath("/", "layout")
@@ -15,7 +17,8 @@ export async function createTask(task: Prisma.TaskCreateArgs["data"]) {
             description: task.description || "",
             title: task.title,
             status: task.status,
-            ownerId: task.ownerId as string
+            ownerId: task.ownerId as string,
+            createdAt: task.createdAt
         }
     })
     revalidatePageData()
@@ -23,10 +26,17 @@ export async function createTask(task: Prisma.TaskCreateArgs["data"]) {
 }
 
 export async function getTasks() {
+    const session = await auth.api.getSession({
+        headers: await headers()
+    })
+    const userId = session?.user.id
     const tasks = await prisma.task.findMany({
         orderBy: {
             createdAt: "desc",
         },
+        where: {
+            ownerId: userId
+        }
     })
     return tasks
 }
@@ -51,20 +61,27 @@ export async function updateTask(task: Task) {
 }
 
 export async function getTaskCount() {
+    const session = await auth.api.getSession({
+        headers: await headers()
+    })
+    const userId = session?.user.id
     const [count1, count2, count3] = await Promise.all([
         prisma.task.count({
             where: {
-                status: "Ожидание"
+                status: "Ожидание",
+                ownerId: userId
             }
         }),
         prisma.task.count({
             where: {
-                status: "В работе"
+                status: "В работе",
+                ownerId: userId
             }
         }),
         prisma.task.count({
             where: {
-                status: "Выполнено"
+                status: "Выполнено",
+                ownerId: userId
             }
         })
 
