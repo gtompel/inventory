@@ -1,3 +1,4 @@
+
 import React from 'react'
 import { CardDescription, CardTitle } from '../ui/card'
 import {
@@ -8,14 +9,19 @@ import {
   TableHead,
   TableHeader,
   TableRow } from '../ui/table'
-  import { getTasks } from '@/service/task'
+import { getTasks } from '@/service/task'
 import { getDate } from '@/utils/getDate'
 import StatusBullet from '../StatusBullet'
 import { TaskStatus } from '../task-form/schema'
 import TitleCell from './title-cell'
 
 export default async function List() {
+
   const tasks = await getTasks()
+
+
+
+
 
   return (
     <div className='space-y-4'>
@@ -43,10 +49,8 @@ export default async function List() {
               <TableCell className='font-medium text-right'>{getDate(task.createdAt)}</TableCell>
             </TableRow>
           ))}
-
         </TableBody>
       </Table>
-
     </div>
   )
 }
