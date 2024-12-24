@@ -1,4 +1,4 @@
-"use client"
+'use client'
 import React from 'react'
 import { VscLoading } from 'react-icons/vsc'
 import { Form as FormComp, FormField, FormControl, FormItem, FormMessage } from '../ui/form'
@@ -128,7 +128,7 @@ export default function Form(props: Props) {
                         <Button
                             type="submit"
                             icon={isLoading ? <VscLoading className='animate-spin' /> : <IoAddOutline />}
-                            disabled={isPending || isLoading}
+                            disabled={isPending || isLoading || !session?.user?.id}
                         >
                             Создать
                         </Button>

@@ -25,6 +25,17 @@ export async function createTask(task: Prisma.TaskCreateArgs["data"]) {
 
 }
 
+export async function searchTasks(searchTerm: string) {
+    return await prisma.task.findMany({
+        where: {
+            OR: [
+                { title: { contains: searchTerm, mode: 'insensitive' } },
+                { description: { contains: searchTerm, mode: 'insensitive' } }
+            ]
+        }
+    });
+}
+
 export async function getTasks() {
     const session = await auth.api.getSession({
         headers: await headers()
