@@ -69,6 +69,7 @@ export default function ChartsComp(props: Props) {
                         dataKey="count"
                         strokeWidth={2}
                         radius={[8, 8, 0, 0]}
+                        barSize={100}
                         >
                             {data.map((item, index) => (
                                 <Rectangle

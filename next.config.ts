@@ -1,10 +1,17 @@
 import type { NextConfig } from "next";
 
 module.exports = {
-    productionBrowserSourceMaps: true,
-  }
+  productionBrowserSourceMaps: true,
+}
 
 const nextConfig: NextConfig = {
+  webpack: (config, {isServer}) => {
+    if (!isServer) {
+      config.devtool = 'source-map'
+
+    }
+  }
+
 
 
 

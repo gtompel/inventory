@@ -23,8 +23,6 @@ type Props = {
     defaultDate?: Date
 
 }
-
-
 export default function Form(props: Props) {
     const { task, onSubmitOrDelete, defaultDate } = props
     const isEditing = !!task;
@@ -44,7 +42,6 @@ export default function Form(props: Props) {
 
         },
     });
-
     const { toast } = useToast()
     const [isLoading, setIsLoading] = React.useState(false);
     const onSubmit: SubmitHandler<FormSchema> = async (data) => {
@@ -78,6 +75,7 @@ export default function Form(props: Props) {
     const onDelete = async () => {
         if (!task?.id) return
         await deleteTask(task.id)
+
         onSubmitOrDelete?.()
     }
     return (
@@ -141,7 +139,8 @@ export default function Form(props: Props) {
                         <FormItem>
                             <FormMessage />
                             <FormControl>
-                                <Textarea placeholder="Описание" {...field} />
+                                <Textarea style={{maxHeight: "400px"}} placeholder="Описание" {...field}
+                                className="overflow-y-auto scrollbar-thin scrollbar-thumb-gray-400 scrollbar-thumb-rounded-full scrollbar-track-zinc-600  "/>
 
                             </FormControl>
                         </FormItem>

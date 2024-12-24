@@ -5,11 +5,14 @@ import { CardDescription, CardTitle } from "@/components/ui/card";
 import { ResizablePanelGroup, ResizablePanel, ResizableHandle } from "@/components/ui/resizable";
 
 
+
 export default async function Home() {
+
+
   return (
 
 
-      <ResizablePanelGroup className="h-full w-full border border-t-0" direction="horizontal">
+      <ResizablePanelGroup className="h-full w-full border border-t-0 z-0" direction="horizontal">
         <ResizablePanel defaultSize={60}>
           <ResizablePanelGroup direction="vertical">
             <ResizablePanel defaultSize={40}>

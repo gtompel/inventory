@@ -57,10 +57,10 @@ export default {
   			sm: 'calc(var(--radius) - 4px)'
   		},
 		fontFamily:{
-			nunito: ['Nunito', 'sans-serif']
+			nunito: ['Nunito', 'sans-serif'],
 		}
   	}
   },
   // eslint-disable-next-line @typescript-eslint/no-require-imports
-  plugins: [require("tailwindcss-animate")],
+  plugins: [require("tailwindcss-animate"), require('tailwind-scrollbar')],
 } satisfies Config;

@@ -1,18 +1,17 @@
 "use server"
-
-
 import { auth } from "@/lib/auth";
 import prisma from "@/lib/prisma";
 import { Prisma, Task } from "@prisma/client";
 import { revalidatePath } from "next/cache";
 import { headers } from "next/headers";
 
+
 function revalidatePageData() {
     revalidatePath("/", "layout")
 }
 
 export async function createTask(task: Prisma.TaskCreateArgs["data"]) {
-    await prisma.task.create({
+   await prisma.task.create({
         data: {
             description: task.description || "",
             title: task.title,
@@ -21,6 +20,7 @@ export async function createTask(task: Prisma.TaskCreateArgs["data"]) {
             createdAt: task.createdAt
         }
     })
+
     revalidatePageData()
 
 }
@@ -58,6 +58,7 @@ export async function deleteTask(id: string) {
             id
         }
     })
+
     revalidatePageData()
 }
 
@@ -68,6 +69,7 @@ export async function updateTask(task: Task) {
         },
         data: task
     })
+
     revalidatePageData()
 }
 
@@ -99,3 +101,4 @@ export async function getTaskCount() {
         ])
     return { count1, count2, count3 }
 }
+
