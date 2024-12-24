@@ -18,23 +18,35 @@ model Task {
   ownerId     String
 }
 
+model Team {
+  id        String   @id @default(uuid())
+  name      String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  members   User[]   @relation("TeamMembership")
+
+  @@map("team")
+}
+
 model User {
   id            String   @id
   name          String
-  email         String
+  email         String   @unique
   emailVerified Boolean
   image         String?
   createdAt     DateTime @default(now())
   updatedAt     DateTime @updatedAt
 
+  // Связи
   Session Session[]
   Account Account[]
-
   tasks Task[]
+  teams  Team[]   @relation("TeamMembership")  // Добавлено поле для связи с командой
 
   @@index([email])
   @@map("user")
 }
+
 
 model Session {
   id        String   @id

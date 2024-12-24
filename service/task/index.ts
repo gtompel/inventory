@@ -102,3 +102,35 @@ export async function getTaskCount() {
     return { count1, count2, count3 }
 }
 
+export async function getUser() {
+    const session = await auth.api.getSession({
+        headers: await headers()
+    });
+
+    // Если сессия недоступна, вернуть null
+    if (!session) {
+        return null;
+    }
+
+    // Получаем пользователя из базы данных по его электронной почте с командами
+    const user = await prisma.user.findUnique({
+        where: {
+            email: session.user.email,
+        },
+        select: {
+            id: true,
+            name: true,
+            email: true,
+            image: true,
+            emailVerified: true,
+            teams: {
+                select: {
+                    id: true,
+                    name: true,
+                },
+            },
+        },
+    });
+
+    return user; // Вернуть данные о пользователе
+}
