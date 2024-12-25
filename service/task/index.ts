@@ -134,3 +134,38 @@ export async function getUser() {
 
     return user; // Вернуть данные о пользователе
 }
+
+export async function getAllUsers() {
+    return await prisma.user.findMany();
+}
+
+export async function createTeam(name: string) {
+    return await prisma.team.create({
+        data: {
+            name,
+        },
+    });
+}
+
+export async function addUserToTeam(userId: string, teamId: string) {
+    // Проверка на наличие userId и teamId
+    if (!userId || isNaN(Number(userId))) {
+        throw new Error('Invalid user ID');
+    }
+    if (!teamId || isNaN(Number(teamId))) {
+        throw new Error('Invalid team ID');
+    }
+
+    return await prisma.user.update({
+        where: {
+            id: (userId), // Убедитесь, что id — число
+        },
+        data: {
+            teams: {
+                connect: {
+                    id: (teamId), // Приведение к числу для teamId
+                },
+            },
+        },
+    })
+}
