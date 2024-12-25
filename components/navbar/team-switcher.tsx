@@ -11,6 +11,27 @@ export async function TeamSwitcher() {
   const user = await getUser();
   const allUsers = await getAllUsers(); // Получить всех пользователей для добавления в команды
 
+  // const addUserToTeam = (user, team) => {
+  //   if (user.role !== 'ADMIN') {
+  //     alert('У вас нет прав для добавления пользователя в команду.');
+  //     return;
+  //   }
+  //   // Логика добавления пользователя в команду
+  // };
+  
+  // const viewTasks = (user) => {
+  //   if (user.role === 'GUEST') {
+  //     // Только просмотр задач
+  //     return getTasksForGuests(); // реализация получения задач для гостей
+  //   } else {
+  //     return getAllTasks(); // другие пользователи получают все задачи
+  //   }
+  // };
+
+  // const getTasksForGuests = () => {
+  //   // Реализация получения задач для гостей
+  // }
+
   return (
     <Popover>
       <PopoverTrigger>

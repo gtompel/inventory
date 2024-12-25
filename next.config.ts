@@ -1,7 +1,7 @@
 import type { NextConfig } from "next";
 
 module.exports = {
-  productionBrowserSourceMaps: true,
+  productionBrowserSourceMaps: false,
 }
 
 const nextConfig: NextConfig = {

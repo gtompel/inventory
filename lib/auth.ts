@@ -9,4 +9,8 @@ export const auth = betterAuth({
     emailAndPassword:{
         enabled: true
     },
+    session: {
+        maxAge: 8 * 60 * 60, // 8 hours
+        updateAge: 60 * 60  // update session every 1 hour
+    }
 });

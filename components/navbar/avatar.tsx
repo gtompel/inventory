@@ -1,19 +1,15 @@
+'use client'
 import React from 'react'
-import { Avatar as AvatarComp, AvatarFallback, AvatarImage } from '../ui/avatar'
+import { authClient } from '@/lib/auth-client'
+import Image from 'next/image'
 
 export default function Avatar() {
-  return (
+  const {data: session, isPending } = authClient.useSession()
+  if (isPending || !session?.user) return 'Loading...'
+  else return (
 
-    <AvatarComp className='mr-2 h-8 w-8'
-    >
-        <AvatarImage
-        src='Evandro.png'
-        alt="Laptev Dmitriy"
-         />
-         <AvatarFallback >
-            LD
-         </AvatarFallback>
-    </AvatarComp>
+    <Image src={`${session.user.image}`} width={32} height={32} className='mr-2 rounded-full' alt={''} />
+
   )
 }
 

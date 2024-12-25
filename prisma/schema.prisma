@@ -37,6 +37,9 @@ model User {
   createdAt     DateTime @default(now())
   updatedAt     DateTime @updatedAt
 
+  // Роль пользователя
+  role          UserRole @default(USER) // Добавляем роль, по умолчанию "USER"
+
   // Связи
   Session Session[]
   Account Account[]
@@ -46,6 +49,14 @@ model User {
   @@index([email])
   @@map("user")
 }
+
+// Перечисление ролей
+enum UserRole {
+  ADMIN // Доступ ко всем операциям
+  USER  // Ограниченный доступ
+  GUEST // Только просмотр
+}
+
 
 
 model Session {
