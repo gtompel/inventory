@@ -18,9 +18,9 @@ export const auth = betterAuth({
         "http://localhost:3000/api/auth",
         "http://localhost:3000/auth",
         "http://localhost:3000/api/auth/get-session",
-        "http://172.16.10.245:3000/auth",
-        "http://172.16.10.245:3000/api/auth",
-        "http://172.16.10.245:3000/api/auth/get-session",
-        "http://172.16.10.245:3000"
+        "http://172.16.6.57:3000/auth",
+        "http://172.16.6.57:3000/api/auth",
+        "http://172.16.6.57:3000/api/auth/get-session",
+        "http://172.16.6.57:3000"
         ]
 });
