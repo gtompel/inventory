@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { betterFetch } from "@better-fetch/fetch";
 import { Session } from "./lib/types";
 
+
 const protectedRoutes = ["/", "/calendar", "/settings"];
 export async function middleware(request: NextRequest) {
     const { data } = await betterFetch<Session>('/api/auth/get-session', {
@@ -16,7 +17,7 @@ export async function middleware(request: NextRequest) {
     } else if (request.nextUrl.pathname === '/auth' && isAuthenticated) {
         return NextResponse.redirect(new URL('/', request.url))
     }
-} 
+}
 
 
     export const config = {
