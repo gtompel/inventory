@@ -12,5 +12,15 @@ export const auth = betterAuth({
     session: {
         maxAge: 8 * 60 * 60, // 8 hours
         updateAge: 60 * 60  // update session every 1 hour
-    }
+    },
+    trustedOrigins: [
+        "http://localhost:3000",
+        "http://localhost:3000/api/auth",
+        "http://localhost:3000/auth",
+        "http://localhost:3000/api/auth/get-session",
+        "http://172.16.10.245:3000/auth",
+        "http://172.16.10.245:3000/api/auth",
+        "http://172.16.10.245:3000/api/auth/get-session",
+        "http://172.16.10.245:3000"
+        ]
 });
