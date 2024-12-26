@@ -7,9 +7,13 @@ export default function Links() {
         <Link href='/' className='text-sm font-medium transition-colors hover:text-primary'>
         Задачи
         </Link>
-        <Link href='/calendar' className='text-muted text-sm font-medium transition-colors hover:text-primary'>Календарь</Link>
-        <span className='text-muted text-sm font-medium transition-colors hover:text-primary'>Настройки</span>
-      
+        <Link href='/calendar' className='text-muted text-sm font-medium transition-colors hover:text-primary'>
+        Календарь
+        </Link>
+        <Link href='/settings' className='text-muted text-sm font-medium transition-colors hover:text-primary'>
+        Настройки
+        </Link>
+
     </div>
   )
 }

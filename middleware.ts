@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { betterFetch } from "@better-fetch/fetch";
 import { Session } from "./lib/types";
 
-const protectedRoutes = ["/", "/calendar"]
+const protectedRoutes = ["/", "/calendar", "/settings"];
 export async function middleware(request: NextRequest) {
     const { data } = await betterFetch<Session>('/api/auth/get-session', {
         baseURL: request.nextUrl.origin,

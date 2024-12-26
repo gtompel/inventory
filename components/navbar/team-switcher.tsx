@@ -2,7 +2,7 @@ import React from 'react';
 import { Popover, PopoverContent, PopoverTrigger } from '../ui/popover';
 import { Command, CommandEmpty, CommandGroup, CommandInput, CommandList, CommandSeparator, CommandItem } from '../ui/command';
 import { PlusCircleIcon } from 'lucide-react';
-import { getUser, getAllUsers } from '@/service/task'; 
+import { getUser, getAllUsers } from '@/service/user';
 import UserProfile from '../user-team/userProfile';
 import TeamList from '../user-team/teamList';
 import UserList from '../user-team/userList';
